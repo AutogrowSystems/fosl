@@ -11,6 +11,6 @@ end
 
 unless defined?(:lsof)
   def lsof(args)
-    FOSL.lsof(args)
+    FOSL.lsof(args) rescue {}
   end
 end
