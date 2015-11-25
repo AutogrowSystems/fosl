@@ -9,7 +9,8 @@ module FOSL
   end
 end
 
-unless defined?(:lsof)
+class Object
+  private
   def lsof(args)
     FOSL.lsof(args) rescue {}
   end
