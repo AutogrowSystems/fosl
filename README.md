@@ -5,7 +5,41 @@ Status:
 The API works now, but is less a true API and more a light hash-ish wrapping on
 lsof output.
 
-## Example: 'lsof.rb'
+## Installation
+
+Install it from ruby gems:
+
+    $ gem install fosl
+
+Or add it to your bundle:
+
+    $ gem 'fosl'
+
+## Usage
+
+There are a few ways to get `lsof` output, the easiest being:
+
+```rb
+require 'fosl'
+
+results = lsof("/path/to/my.db")
+
+results.each do |pid, process|
+  puts "Pid #{pid} is using it, #{process.user} running command: #{process.command}"
+end
+```
+
+You could also do it these ways (which will raise a `RuntimeError` if `lsof` doesn't return anything):
+
+```rb
+res  = FOSL.lsof("/not/a/real/file") # raises RuntimeError
+fosl = FOSL::Parser.new
+res  = fosl.lsof("-i :80") rescue {}
+```
+
+## Examples
+
+### Example: 'lsof.rb'
 
 Code: <https://github.com/jordansissel/fosl/blob/master/examples/lsof.rb>
 
@@ -21,7 +55,7 @@ ruby.
     root      1846     1  0 Mar08 ?        00:00:00 nginx: master process /usr/sbin/nginx
     www-data  1847  1846  0 Mar08 ?        00:00:01 nginx: worker process
 
-## Example: What files do I have open?
+### Example: What files do I have open?
 
 Code: <https://github.com/jordansissel/fosl/blob/master/examples/lsofpid.rb>
 
@@ -47,7 +81,7 @@ Output:
     {1=>{:fd=>10, :name=>"socket"}}
 
 
-## Example usage (Show all listeners):
+### Example usage (Show all listeners):
 
     require "rubygems" 
     require "ap" 
